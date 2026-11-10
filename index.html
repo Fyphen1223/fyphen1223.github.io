@@ -16,107 +16,149 @@
   #bg { position: fixed; inset: 0; z-index: 0; }
   .glow {
     position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(ellipse 60% 45% at 50% 32%, rgba(88,166,255,0.13), transparent 70%);
+    background: radial-gradient(ellipse 62% 48% at 50% 42%, rgba(88,166,255,0.13), transparent 70%);
   }
+  /* ---------- header / hamburger ---------- */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 1.4rem;
+  }
+  .wordmark { font-weight: 800; letter-spacing: 0.28em; font-size: 0.85rem; color: #c9d4e0; text-transform: uppercase; }
+  .burger {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(13,17,23,0.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    cursor: pointer; position: relative; z-index: 40;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .burger:hover { border-color: rgba(88,166,255,0.6); }
+  .burger span {
+    position: absolute; left: 13px; width: 20px; height: 2px; border-radius: 2px;
+    background: #e6edf3; transition: transform 0.35s cubic-bezier(0.6, 0, 0.2, 1), opacity 0.25s ease, top 0.35s cubic-bezier(0.6, 0, 0.2, 1);
+  }
+  .burger span:nth-child(1) { top: 16px; }
+  .burger span:nth-child(2) { top: 22px; }
+  .burger span:nth-child(3) { top: 28px; }
+  body.menu-open .burger span:nth-child(1) { top: 22px; transform: rotate(45deg); }
+  body.menu-open .burger span:nth-child(2) { opacity: 0; }
+  body.menu-open .burger span:nth-child(3) { top: 22px; transform: rotate(-45deg); }
+  /* ---------- overlay menu ---------- */
+  .menu {
+    position: fixed; inset: 0; z-index: 20;
+    background: rgba(4, 6, 11, 0.82);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.45s ease, visibility 0.45s;
+    display: flex; align-items: center; justify-content: center;
+    overflow-y: auto;
+  }
+  body.menu-open .menu { opacity: 1; visibility: visible; }
+  .menu nav { width: min(560px, 90vw); padding: 5.5rem 0 3rem; }
+  .menu .label { color: #58a6ff; font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.4rem; }
+  .menu a.item {
+    display: flex; align-items: baseline; gap: 1.1rem;
+    padding: 0.95rem 0.4rem;
+    color: #e6edf3; text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), padding-left 0.25s ease;
+  }
+  body.menu-open .menu a.item { opacity: 1; transform: translateY(0); }
+  body.menu-open .menu a.item:nth-of-type(1) { transition-delay: 0.06s, 0.06s, 0s; }
+  body.menu-open .menu a.item:nth-of-type(2) { transition-delay: 0.12s, 0.12s, 0s; }
+  body.menu-open .menu a.item:nth-of-type(3) { transition-delay: 0.18s, 0.18s, 0s; }
+  body.menu-open .menu a.item:nth-of-type(4) { transition-delay: 0.24s, 0.24s, 0s; }
+  body.menu-open .menu a.item:nth-of-type(5) { transition-delay: 0.30s, 0.30s, 0s; }
+  body.menu-open .menu a.item:nth-of-type(6) { transition-delay: 0.36s, 0.36s, 0s; }
+  .menu a.item:hover { padding-left: 0.9rem; }
+  .menu .num { color: #58a6ff; font-size: 0.75rem; letter-spacing: 0.2em; font-weight: 600; min-width: 2ch; }
+  .menu .ttl { font-size: clamp(1.3rem, 4.5vw, 1.7rem); font-weight: 700; letter-spacing: 0.01em; }
+  .menu .desc { margin-left: auto; text-align: right; color: #8b98a5; font-size: 0.82rem; line-height: 1.45; max-width: 46%; }
+  .menu .arrow { color: #58a6ff; opacity: 0; transition: opacity 0.25s ease; }
+  .menu a.item:hover .arrow { opacity: 1; }
+  .menu .foot { margin-top: 1.8rem; display: flex; justify-content: space-between; align-items: center; }
+  .menu .foot a { color: #c9d4e0; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid rgba(88,166,255,0.5); padding-bottom: 2px; }
+  .menu .foot a:hover { color: #58a6ff; }
+  .menu .foot span { color: #525d68; font-size: 0.8rem; }
+  @media (max-width: 560px) { .menu .desc { display: none; } }
+  /* ---------- hero ---------- */
   main {
     position: relative; z-index: 2;
     min-height: 100vh;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     padding: 2.5rem 1.5rem 3rem;
-    perspective: 1200px;
   }
   @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .hero { text-align: center; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   #logo3d { display: block; margin: 0 auto; max-width: 92vw; }
   .sub { margin-top: 0.4rem; color: #8b98a5; font-size: 0.95rem; letter-spacing: 0.5em; text-transform: uppercase; text-indent: 0.5em; }
-  nav {
-    margin-top: 3rem;
-    display: flex; flex-wrap: wrap; gap: 1.1rem; justify-content: center;
-    max-width: 900px;
+  .hint {
+    margin-top: 3rem; color: #66727f; font-size: 0.82rem; letter-spacing: 0.24em; text-transform: uppercase;
+    animation: rise 0.9s 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both, pulse 2.6s ease-in-out 1.4s infinite;
+    cursor: pointer;
   }
-  .card {
-    --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
-    position: relative;
-    width: 252px; padding: 1.5rem 1.5rem 1.35rem;
-    border-radius: 18px;
-    color: #e6edf3; text-decoration: none;
-    background:
-      radial-gradient(420px circle at var(--mx) var(--my), rgba(88,166,255,0.13), transparent 45%),
-      linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
-    border: 1px solid rgba(255,255,255,0.09);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    transform: rotateX(var(--rx)) rotateY(var(--ry));
-    transform-style: preserve-3d;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 14px 36px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
-    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-    overflow: hidden;
-  }
-  .card::before {
-    content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px;
-    background: linear-gradient(140deg, rgba(88,166,255,0.55), rgba(188,140,255,0.0) 40%, rgba(188,140,255,0.0) 60%, rgba(188,140,255,0.45));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
-  }
-  .card:hover::before { opacity: 1; }
-  .card:nth-child(1) { animation-delay: 0.15s; }
-  .card:nth-child(2) { animation-delay: 0.28s; }
-  .card:nth-child(3) { animation-delay: 0.41s; }
-  .card:hover { box-shadow: 0 26px 54px rgba(0,0,0,0.55), 0 0 34px rgba(88,166,255,0.14), inset 0 1px 0 rgba(255,255,255,0.08); }
-  .card .num {
-    font-size: 0.72rem; letter-spacing: 0.32em; color: #58a6ff; font-weight: 600;
-    display: block; transform: translateZ(26px);
-  }
-  .card h2 { margin-top: 0.65rem; font-size: 1.28rem; font-weight: 700; letter-spacing: 0.01em; transform: translateZ(30px); }
-  .card p { margin-top: 0.5rem; color: #93a1b0; font-size: 0.92rem; line-height: 1.55; transform: translateZ(20px); }
-  .card .line { margin-top: 1.05rem; height: 1px; background: linear-gradient(90deg, rgba(88,166,255,0.6), transparent); transform: translateZ(16px); }
-  .card .go {
-    margin-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;
-    font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: #c9d4e0;
-    transform: translateZ(24px);
-  }
-  .card .go .arrow { color: #58a6ff; font-size: 1rem; letter-spacing: 0; transition: transform 0.25s ease; }
-  .card:hover .go .arrow { transform: translate(4px, -4px); }
-  footer { margin-top: 3.2rem; color: #525d68; font-size: 0.82rem; letter-spacing: 0.18em; animation: rise 0.9s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  @keyframes pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+  footer { position: fixed; bottom: 1.1rem; left: 0; right: 0; z-index: 2; text-align: center; color: #454f59; font-size: 0.8rem; letter-spacing: 0.18em; }
 </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
 <div class="glow"></div>
+
+<header>
+  <div class="wordmark">Fyphen</div>
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="menu" id="menu">
+  <nav>
+    <div class="label">Projects</div>
+    <a class="item" href="https://fyphen1223.github.io/ListenAndRepeat/">
+      <span class="num">01</span><span class="ttl">ListenAndRepeat</span>
+      <span class="desc">TOEFL listen &amp; repeat practice</span><span class="arrow">↗</span>
+    </a>
+    <a class="item" href="https://fyphen1223.github.io/BuildASentence/">
+      <span class="num">02</span><span class="ttl">BuildASentence</span>
+      <span class="desc">TOEFL build-a-sentence practice</span><span class="arrow">↗</span>
+    </a>
+    <a class="item" href="https://github.com/Fyphen1223/Swallow">
+      <span class="num">03</span><span class="ttl">Swallow</span>
+      <span class="desc">Versatile Discord music bot (Node.js)</span><span class="arrow">↗</span>
+    </a>
+    <a class="item" href="https://github.com/Fyphen1223/TsumiLink">
+      <span class="num">04</span><span class="ttl">TsumiLink</span>
+      <span class="desc">Lavalink / NodeLink client library</span><span class="arrow">↗</span>
+    </a>
+    <a class="item" href="https://github.com/Fyphen1223/CosmoMusic">
+      <span class="num">05</span><span class="ttl">CosmoMusic</span>
+      <span class="desc">Discord music bot with AI features</span><span class="arrow">↗</span>
+    </a>
+    <a class="item" href="https://github.com/Fyphen1223/MK8DX-TA-Bot-Discord">
+      <span class="num">06</span><span class="ttl">MK8DX TA Bot</span>
+      <span class="desc">Mario Kart 8DX time-attack Discord bot</span><span class="arrow">↗</span>
+    </a>
+    <div class="foot">
+      <a href="https://github.com/Fyphen1223">GitHub Profile ↗</a>
+      <span>© FYPHEN</span>
+    </div>
+  </nav>
+</div>
+
 <main>
   <div class="hero">
     <h1 class="sr-only">Fyphen</h1>
     <canvas id="logo3d" width="760" height="250" aria-label="Fyphen"></canvas>
     <div class="sub">Developer</div>
+    <div class="hint" id="hint">Menu ↑</div>
   </div>
-  <nav>
-    <a class="card" href="https://fyphen1223.github.io/ListenAndRepeat/">
-      <span class="num">01</span>
-      <h2>ListenAndRepeat</h2>
-      <p>TOEFL listen &amp; repeat practice.</p>
-      <div class="line"></div>
-      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
-    </a>
-    <a class="card" href="https://fyphen1223.github.io/BuildASentence/">
-      <span class="num">02</span>
-      <h2>BuildASentence</h2>
-      <p>TOEFL build-a-sentence practice.</p>
-      <div class="line"></div>
-      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
-    </a>
-    <a class="card" href="https://github.com/Fyphen1223">
-      <span class="num">03</span>
-      <h2>GitHub</h2>
-      <p>More projects and code.</p>
-      <div class="line"></div>
-      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
-    </a>
-  </nav>
-  <footer>© FYPHEN</footer>
 </main>
+<footer></footer>
 
 <script type="importmap">
 { "imports": {
@@ -129,23 +171,34 @@ import * as THREE from 'three';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+/* menu toggle */
+const burger = document.getElementById('burger');
+function toggleMenu(force) {
+  const open = force !== undefined ? force : !document.body.classList.contains('menu-open');
+  document.body.classList.toggle('menu-open', open);
+  burger.setAttribute('aria-expanded', String(open));
+}
+burger.addEventListener('click', () => toggleMenu());
+document.getElementById('hint').addEventListener('click', () => toggleMenu(true));
+window.addEventListener('keydown', (e) => { if (e.key === 'Escape') toggleMenu(false); });
+document.querySelectorAll('.menu a').forEach((a) => a.addEventListener('click', () => toggleMenu(false)));
+
 let mx = 0, my = 0;
 window.addEventListener('pointermove', (e) => {
   mx = (e.clientX / window.innerWidth - 0.5) * 2;
   my = (e.clientY / window.innerHeight - 0.5) * 2;
 });
 
-/* ---------- background: wireframe shapes + particles ---------- */
+/* ---------- background ---------- */
 const bgRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), antialias: true, alpha: true });
 bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const bgScene = new THREE.Scene();
 bgScene.fog = new THREE.FogExp2(0x05070d, 0.055);
 const bgCam = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 bgCam.position.set(0, 0, 9);
-
 const knot = new THREE.Mesh(
   new THREE.TorusKnotGeometry(2.5, 0.72, 180, 24),
-  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.10 })
+  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.11 })
 );
 bgScene.add(knot);
 const ico = new THREE.Mesh(
@@ -160,7 +213,6 @@ const oct = new THREE.Mesh(
 );
 oct.position.set(-3.8, -1.4, -1);
 bgScene.add(oct);
-
 const N = 900;
 const pos = new Float32Array(N * 3);
 for (let i = 0; i < N; i++) {
@@ -173,28 +225,23 @@ pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x9ecbff, size: 0.045, transparent: true, opacity: 0.7 }));
 bgScene.add(points);
 
-/* ---------- hero: "Fyphen" as real 3D text ---------- */
-const logoCanvas = document.getElementById('logo3d');
-const logoRenderer = new THREE.WebGLRenderer({ canvas: logoCanvas, antialias: true, alpha: true });
+/* ---------- 3D text logo ---------- */
+const logoRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('logo3d'), antialias: true, alpha: true });
 logoRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 logoRenderer.setSize(760, 250, false);
 const logoScene = new THREE.Scene();
 const logoCam = new THREE.PerspectiveCamera(38, 760 / 250, 0.1, 100);
 logoCam.position.set(0, 0, 10);
-
 let textMesh = null;
 new FontLoader().load('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json', (font) => {
   const geo = new TextGeometry('Fyphen', {
-    font, size: 1.9, height: 0.55,
-    curveSegments: 10,
+    font, size: 1.9, height: 0.55, curveSegments: 10,
     bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.035, bevelSegments: 4
   });
   geo.computeBoundingBox();
   const bb = geo.boundingBox;
-  const w = bb.max.x - bb.min.x, h = bb.max.y - bb.min.y;
-  geo.translate(-w / 2 - bb.min.x, -h / 2 - bb.min.y, -0.27);
-  const mat = new THREE.MeshNormalMaterial({ flatShading: true });
-  textMesh = new THREE.Mesh(geo, mat);
+  geo.translate(-(bb.max.x - bb.min.x) / 2 - bb.min.x, -(bb.max.y - bb.min.y) / 2 - bb.min.y, -0.27);
+  textMesh = new THREE.Mesh(geo, new THREE.MeshNormalMaterial({ flatShading: true }));
   const wire = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x9ecbff, wireframe: true, transparent: true, opacity: 0.10 }));
   wire.scale.setScalar(1.003);
   textMesh.add(wire);
@@ -213,7 +260,6 @@ const clock = new THREE.Clock();
 (function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-
   knot.rotation.x = t * 0.12; knot.rotation.y = t * 0.16;
   ico.rotation.x = -t * 0.25; ico.rotation.y = t * 0.3;
   oct.rotation.x = t * 0.3; oct.rotation.z = -t * 0.2;
@@ -222,7 +268,6 @@ const clock = new THREE.Clock();
   bgCam.position.y += (-my * 0.7 - bgCam.position.y) * 0.04;
   bgCam.lookAt(0, 0, 0);
   bgRenderer.render(bgScene, bgCam);
-
   if (textMesh) {
     textMesh.rotation.y = Math.sin(t * 0.55) * 0.24 + mx * 0.35;
     textMesh.rotation.x = Math.sin(t * 0.4) * 0.07 - my * 0.18;
@@ -231,23 +276,6 @@ const clock = new THREE.Clock();
   }
   logoRenderer.render(logoScene, logoCam);
 })();
-
-/* ---------- card tilt + cursor glow ---------- */
-document.querySelectorAll('.card').forEach((card) => {
-  card.addEventListener('pointermove', (e) => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    card.style.setProperty('--ry', (x * 14) + 'deg');
-    card.style.setProperty('--rx', (-y * 14) + 'deg');
-    card.style.setProperty('--mx', ((x + 0.5) * 100) + '%');
-    card.style.setProperty('--my', ((y + 0.5) * 100) + '%');
-  });
-  card.addEventListener('pointerleave', () => {
-    card.style.setProperty('--rx', '0deg');
-    card.style.setProperty('--ry', '0deg');
-  });
-});
 </script>
 </body>
 </html>
