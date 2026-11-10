@@ -6,36 +6,198 @@
 <title>Fyphen</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: #0d1117;
+    background: #05070d;
     color: #e6edf3;
+    overflow-x: hidden;
+  }
+  #bg { position: fixed; inset: 0; z-index: 0; }
+  .glow {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse 60% 45% at 50% 38%, rgba(88,166,255,0.14), transparent 70%);
+  }
+  main {
+    position: relative; z-index: 2;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 3rem 1.5rem;
+    perspective: 1200px;
   }
-  main { text-align: center; padding: 2rem; }
-  h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: 0.02em; }
-  p { margin-top: 1rem; color: #8b949e; font-size: 1.1rem; }
-  a {
-    display: inline-block;
-    margin-top: 2rem;
-    color: #58a6ff;
-    text-decoration: none;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 0.5rem 1.2rem;
-    transition: background 0.2s;
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+  .hero { text-align: center; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  h1 {
+    font-size: clamp(3rem, 10vw, 5.2rem);
+    font-weight: 800; letter-spacing: 0.01em; line-height: 1.05;
+    background: linear-gradient(120deg, #ffffff 20%, #58a6ff 55%, #bc8cff 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  a:hover { background: #161b22; }
+  .sub { margin-top: 0.9rem; color: #9aa7b4; font-size: 1.1rem; letter-spacing: 0.35em; text-transform: uppercase; }
+  nav {
+    margin-top: 3.2rem;
+    display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center;
+    max-width: 880px;
+  }
+  .card {
+    --rx: 0deg; --ry: 0deg;
+    position: relative;
+    width: 248px; padding: 1.6rem 1.5rem 1.4rem;
+    background: rgba(13, 17, 23, 0.62);
+    border: 1px solid rgba(88, 166, 255, 0.22);
+    border-radius: 16px;
+    color: #e6edf3; text-decoration: none;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .card:nth-child(1) { animation-delay: 0.15s; }
+  .card:nth-child(2) { animation-delay: 0.28s; }
+  .card:nth-child(3) { animation-delay: 0.41s; }
+  .card:hover {
+    border-color: rgba(88, 166, 255, 0.65);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(88,166,255,0.15), 0 0 34px rgba(88, 166, 255, 0.18);
+  }
+  .card .icon { font-size: 1.7rem; transform: translateZ(34px); display: block; }
+  .card h2 { margin-top: 0.75rem; font-size: 1.22rem; font-weight: 700; transform: translateZ(28px); }
+  .card p { margin-top: 0.45rem; color: #9aa7b4; font-size: 0.92rem; line-height: 1.5; transform: translateZ(20px); }
+  .card .arrow {
+    position: absolute; top: 1.15rem; right: 1.25rem;
+    color: #58a6ff; font-size: 1.05rem; transform: translateZ(30px);
+    transition: transform 0.25s ease;
+  }
+  .card:hover .arrow { transform: translateZ(30px) translate(3px, -3px); }
+  footer { margin-top: 3.4rem; color: #5b6672; font-size: 0.85rem; animation: rise 0.9s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
+<div class="glow"></div>
 <main>
-  <h1>Fyphen</h1>
-  <p>Developer.</p>
-  <a href="https://github.com/Fyphen1223">GitHub</a>
+  <div class="hero">
+    <h1>Fyphen</h1>
+    <div class="sub">Developer</div>
+  </div>
+  <nav>
+    <a class="card" href="https://fyphen1223.github.io/ListenAndRepeat/">
+      <span class="icon">🎧</span>
+      <span class="arrow">↗</span>
+      <h2>ListenAndRepeat</h2>
+      <p>TOEFL listen &amp; repeat practice.</p>
+    </a>
+    <a class="card" href="https://fyphen1223.github.io/BuildASentence/">
+      <span class="icon">🧩</span>
+      <span class="arrow">↗</span>
+      <h2>BuildASentence</h2>
+      <p>TOEFL build-a-sentence practice.</p>
+    </a>
+    <a class="card" href="https://github.com/Fyphen1223">
+      <span class="icon">🐙</span>
+      <span class="arrow">↗</span>
+      <h2>GitHub</h2>
+      <p>More projects and code.</p>
+    </a>
+  </nav>
+  <footer>© Fyphen</footer>
 </main>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x05070d, 0.055);
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+camera.position.set(0, 0, 9);
+
+// Wireframe torus knot, slowly tumbling
+const knot = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(2.5, 0.72, 180, 24),
+  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.16 })
+);
+scene.add(knot);
+
+const knot2 = new THREE.Mesh(
+  new THREE.IcosahedronGeometry(1.15, 0),
+  new THREE.MeshBasicMaterial({ color: 0xbc8cff, wireframe: true, transparent: true, opacity: 0.35 })
+);
+knot2.position.set(3.6, 1.5, -1.5);
+scene.add(knot2);
+
+const knot3 = new THREE.Mesh(
+  new THREE.OctahedronGeometry(0.8, 0),
+  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.3 })
+);
+knot3.position.set(-3.8, -1.4, -1);
+scene.add(knot3);
+
+// Particle starfield
+const N = 900;
+const pos = new Float32Array(N * 3);
+for (let i = 0; i < N; i++) {
+  pos[i * 3] = (Math.random() - 0.5) * 34;
+  pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+  pos[i * 3 + 2] = (Math.random() - 0.5) * 16 - 2;
+}
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x9ecbff, size: 0.045, transparent: true, opacity: 0.75 }));
+scene.add(points);
+
+let mx = 0, my = 0;
+window.addEventListener('pointermove', (e) => {
+  mx = (e.clientX / window.innerWidth - 0.5) * 2;
+  my = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+function resize() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resize);
+resize();
+
+const clock = new THREE.Clock();
+(function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  knot.rotation.x = t * 0.12;
+  knot.rotation.y = t * 0.16;
+  knot.position.y = Math.sin(t * 0.6) * 0.25;
+  knot2.rotation.x = -t * 0.25; knot2.rotation.y = t * 0.3;
+  knot3.rotation.x = t * 0.3; knot3.rotation.z = -t * 0.2;
+  points.rotation.y = t * 0.014;
+  camera.position.x += (mx * 1.1 - camera.position.x) * 0.04;
+  camera.position.y += (-my * 0.7 - camera.position.y) * 0.04;
+  camera.lookAt(0, 0, 0);
+  renderer.render(scene, camera);
+})();
+
+// 3D tilt on menu cards
+document.querySelectorAll('.card').forEach((card) => {
+  card.addEventListener('pointermove', (e) => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.setProperty('--ry', (x * 16) + 'deg');
+    card.style.setProperty('--rx', (-y * 16) + 'deg');
+  });
+  card.addEventListener('pointerleave', () => {
+    card.style.setProperty('--rx', '0deg');
+    card.style.setProperty('--ry', '0deg');
+  });
+});
+</script>
 </body>
 </html>
