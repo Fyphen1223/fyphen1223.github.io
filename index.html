@@ -16,62 +16,71 @@
   #bg { position: fixed; inset: 0; z-index: 0; }
   .glow {
     position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(ellipse 60% 45% at 50% 38%, rgba(88,166,255,0.14), transparent 70%);
+    background: radial-gradient(ellipse 60% 45% at 50% 32%, rgba(88,166,255,0.13), transparent 70%);
   }
   main {
     position: relative; z-index: 2;
     min-height: 100vh;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem 3rem;
     perspective: 1200px;
   }
   @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .hero { text-align: center; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  h1 {
-    font-size: clamp(3rem, 10vw, 5.2rem);
-    font-weight: 800; letter-spacing: 0.01em; line-height: 1.05;
-    background: linear-gradient(120deg, #ffffff 20%, #58a6ff 55%, #bc8cff 90%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .sub { margin-top: 0.9rem; color: #9aa7b4; font-size: 1.1rem; letter-spacing: 0.35em; text-transform: uppercase; }
+  #logo3d { display: block; margin: 0 auto; max-width: 92vw; }
+  .sub { margin-top: 0.4rem; color: #8b98a5; font-size: 0.95rem; letter-spacing: 0.5em; text-transform: uppercase; text-indent: 0.5em; }
   nav {
-    margin-top: 3.2rem;
-    display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center;
-    max-width: 880px;
+    margin-top: 3rem;
+    display: flex; flex-wrap: wrap; gap: 1.1rem; justify-content: center;
+    max-width: 900px;
   }
   .card {
-    --rx: 0deg; --ry: 0deg;
+    --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
     position: relative;
-    width: 248px; padding: 1.6rem 1.5rem 1.4rem;
-    background: rgba(13, 17, 23, 0.62);
-    border: 1px solid rgba(88, 166, 255, 0.22);
-    border-radius: 16px;
+    width: 252px; padding: 1.5rem 1.5rem 1.35rem;
+    border-radius: 18px;
     color: #e6edf3; text-decoration: none;
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    background:
+      radial-gradient(420px circle at var(--mx) var(--my), rgba(88,166,255,0.13), transparent 45%),
+      linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.09);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     transform: rotateX(var(--rx)) rotateY(var(--ry));
     transform-style: preserve-3d;
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
     animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    overflow: hidden;
   }
+  .card::before {
+    content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px;
+    background: linear-gradient(140deg, rgba(88,166,255,0.55), rgba(188,140,255,0.0) 40%, rgba(188,140,255,0.0) 60%, rgba(188,140,255,0.45));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+  }
+  .card:hover::before { opacity: 1; }
   .card:nth-child(1) { animation-delay: 0.15s; }
   .card:nth-child(2) { animation-delay: 0.28s; }
   .card:nth-child(3) { animation-delay: 0.41s; }
-  .card:hover {
-    border-color: rgba(88, 166, 255, 0.65);
-    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(88,166,255,0.15), 0 0 34px rgba(88, 166, 255, 0.18);
+  .card:hover { box-shadow: 0 26px 54px rgba(0,0,0,0.55), 0 0 34px rgba(88,166,255,0.14), inset 0 1px 0 rgba(255,255,255,0.08); }
+  .card .num {
+    font-size: 0.72rem; letter-spacing: 0.32em; color: #58a6ff; font-weight: 600;
+    display: block; transform: translateZ(26px);
   }
-  .card .icon { font-size: 1.7rem; transform: translateZ(34px); display: block; }
-  .card h2 { margin-top: 0.75rem; font-size: 1.22rem; font-weight: 700; transform: translateZ(28px); }
-  .card p { margin-top: 0.45rem; color: #9aa7b4; font-size: 0.92rem; line-height: 1.5; transform: translateZ(20px); }
-  .card .arrow {
-    position: absolute; top: 1.15rem; right: 1.25rem;
-    color: #58a6ff; font-size: 1.05rem; transform: translateZ(30px);
-    transition: transform 0.25s ease;
+  .card h2 { margin-top: 0.65rem; font-size: 1.28rem; font-weight: 700; letter-spacing: 0.01em; transform: translateZ(30px); }
+  .card p { margin-top: 0.5rem; color: #93a1b0; font-size: 0.92rem; line-height: 1.55; transform: translateZ(20px); }
+  .card .line { margin-top: 1.05rem; height: 1px; background: linear-gradient(90deg, rgba(88,166,255,0.6), transparent); transform: translateZ(16px); }
+  .card .go {
+    margin-top: 0.8rem; display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: #c9d4e0;
+    transform: translateZ(24px);
   }
-  .card:hover .arrow { transform: translateZ(30px) translate(3px, -3px); }
-  footer { margin-top: 3.4rem; color: #5b6672; font-size: 0.85rem; animation: rise 0.9s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .card .go .arrow { color: #58a6ff; font-size: 1rem; letter-spacing: 0; transition: transform 0.25s ease; }
+  .card:hover .go .arrow { transform: translate(4px, -4px); }
+  footer { margin-top: 3.2rem; color: #525d68; font-size: 0.82rem; letter-spacing: 0.18em; animation: rise 0.9s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 </style>
 </head>
 <body>
@@ -79,69 +88,79 @@
 <div class="glow"></div>
 <main>
   <div class="hero">
-    <h1>Fyphen</h1>
+    <h1 class="sr-only">Fyphen</h1>
+    <canvas id="logo3d" width="760" height="250" aria-label="Fyphen"></canvas>
     <div class="sub">Developer</div>
   </div>
   <nav>
     <a class="card" href="https://fyphen1223.github.io/ListenAndRepeat/">
-      <span class="icon">🎧</span>
-      <span class="arrow">↗</span>
+      <span class="num">01</span>
       <h2>ListenAndRepeat</h2>
       <p>TOEFL listen &amp; repeat practice.</p>
+      <div class="line"></div>
+      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
     </a>
     <a class="card" href="https://fyphen1223.github.io/BuildASentence/">
-      <span class="icon">🧩</span>
-      <span class="arrow">↗</span>
+      <span class="num">02</span>
       <h2>BuildASentence</h2>
       <p>TOEFL build-a-sentence practice.</p>
+      <div class="line"></div>
+      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
     </a>
     <a class="card" href="https://github.com/Fyphen1223">
-      <span class="icon">🐙</span>
-      <span class="arrow">↗</span>
+      <span class="num">03</span>
       <h2>GitHub</h2>
       <p>More projects and code.</p>
+      <div class="line"></div>
+      <div class="go"><span>Open</span><span class="arrow">↗</span></div>
     </a>
   </nav>
-  <footer>© Fyphen</footer>
+  <footer>© FYPHEN</footer>
 </main>
 
 <script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
 </script>
 <script type="module">
 import * as THREE from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-const canvas = document.getElementById('bg');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+let mx = 0, my = 0;
+window.addEventListener('pointermove', (e) => {
+  mx = (e.clientX / window.innerWidth - 0.5) * 2;
+  my = (e.clientY / window.innerHeight - 0.5) * 2;
+});
 
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x05070d, 0.055);
-const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-camera.position.set(0, 0, 9);
+/* ---------- background: wireframe shapes + particles ---------- */
+const bgRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), antialias: true, alpha: true });
+bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const bgScene = new THREE.Scene();
+bgScene.fog = new THREE.FogExp2(0x05070d, 0.055);
+const bgCam = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+bgCam.position.set(0, 0, 9);
 
-// Wireframe torus knot, slowly tumbling
 const knot = new THREE.Mesh(
   new THREE.TorusKnotGeometry(2.5, 0.72, 180, 24),
-  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.16 })
+  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.10 })
 );
-scene.add(knot);
-
-const knot2 = new THREE.Mesh(
+bgScene.add(knot);
+const ico = new THREE.Mesh(
   new THREE.IcosahedronGeometry(1.15, 0),
-  new THREE.MeshBasicMaterial({ color: 0xbc8cff, wireframe: true, transparent: true, opacity: 0.35 })
+  new THREE.MeshBasicMaterial({ color: 0xbc8cff, wireframe: true, transparent: true, opacity: 0.3 })
 );
-knot2.position.set(3.6, 1.5, -1.5);
-scene.add(knot2);
-
-const knot3 = new THREE.Mesh(
+ico.position.set(3.6, 1.5, -1.5);
+bgScene.add(ico);
+const oct = new THREE.Mesh(
   new THREE.OctahedronGeometry(0.8, 0),
-  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.3 })
+  new THREE.MeshBasicMaterial({ color: 0x58a6ff, wireframe: true, transparent: true, opacity: 0.26 })
 );
-knot3.position.set(-3.8, -1.4, -1);
-scene.add(knot3);
+oct.position.set(-3.8, -1.4, -1);
+bgScene.add(oct);
 
-// Particle starfield
 const N = 900;
 const pos = new Float32Array(N * 3);
 for (let i = 0; i < N; i++) {
@@ -151,19 +170,41 @@ for (let i = 0; i < N; i++) {
 }
 const pGeo = new THREE.BufferGeometry();
 pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x9ecbff, size: 0.045, transparent: true, opacity: 0.75 }));
-scene.add(points);
+const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x9ecbff, size: 0.045, transparent: true, opacity: 0.7 }));
+bgScene.add(points);
 
-let mx = 0, my = 0;
-window.addEventListener('pointermove', (e) => {
-  mx = (e.clientX / window.innerWidth - 0.5) * 2;
-  my = (e.clientY / window.innerHeight - 0.5) * 2;
+/* ---------- hero: "Fyphen" as real 3D text ---------- */
+const logoCanvas = document.getElementById('logo3d');
+const logoRenderer = new THREE.WebGLRenderer({ canvas: logoCanvas, antialias: true, alpha: true });
+logoRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+logoRenderer.setSize(760, 250, false);
+const logoScene = new THREE.Scene();
+const logoCam = new THREE.PerspectiveCamera(38, 760 / 250, 0.1, 100);
+logoCam.position.set(0, 0, 10);
+
+let textMesh = null;
+new FontLoader().load('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json', (font) => {
+  const geo = new TextGeometry('Fyphen', {
+    font, size: 1.9, height: 0.55,
+    curveSegments: 10,
+    bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.035, bevelSegments: 4
+  });
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox;
+  const w = bb.max.x - bb.min.x, h = bb.max.y - bb.min.y;
+  geo.translate(-w / 2 - bb.min.x, -h / 2 - bb.min.y, -0.27);
+  const mat = new THREE.MeshNormalMaterial({ flatShading: true });
+  textMesh = new THREE.Mesh(geo, mat);
+  const wire = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x9ecbff, wireframe: true, transparent: true, opacity: 0.10 }));
+  wire.scale.setScalar(1.003);
+  textMesh.add(wire);
+  logoScene.add(textMesh);
 });
 
 function resize() {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+  bgRenderer.setSize(window.innerWidth, window.innerHeight);
+  bgCam.aspect = window.innerWidth / window.innerHeight;
+  bgCam.updateProjectionMatrix();
 }
 window.addEventListener('resize', resize);
 resize();
@@ -172,26 +213,35 @@ const clock = new THREE.Clock();
 (function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-  knot.rotation.x = t * 0.12;
-  knot.rotation.y = t * 0.16;
-  knot.position.y = Math.sin(t * 0.6) * 0.25;
-  knot2.rotation.x = -t * 0.25; knot2.rotation.y = t * 0.3;
-  knot3.rotation.x = t * 0.3; knot3.rotation.z = -t * 0.2;
+
+  knot.rotation.x = t * 0.12; knot.rotation.y = t * 0.16;
+  ico.rotation.x = -t * 0.25; ico.rotation.y = t * 0.3;
+  oct.rotation.x = t * 0.3; oct.rotation.z = -t * 0.2;
   points.rotation.y = t * 0.014;
-  camera.position.x += (mx * 1.1 - camera.position.x) * 0.04;
-  camera.position.y += (-my * 0.7 - camera.position.y) * 0.04;
-  camera.lookAt(0, 0, 0);
-  renderer.render(scene, camera);
+  bgCam.position.x += (mx * 1.1 - bgCam.position.x) * 0.04;
+  bgCam.position.y += (-my * 0.7 - bgCam.position.y) * 0.04;
+  bgCam.lookAt(0, 0, 0);
+  bgRenderer.render(bgScene, bgCam);
+
+  if (textMesh) {
+    textMesh.rotation.y = Math.sin(t * 0.55) * 0.24 + mx * 0.35;
+    textMesh.rotation.x = Math.sin(t * 0.4) * 0.07 - my * 0.18;
+    textMesh.position.y = Math.sin(t * 0.9) * 0.12;
+    textMesh.position.x += (mx * 0.25 - textMesh.position.x) * 0.05;
+  }
+  logoRenderer.render(logoScene, logoCam);
 })();
 
-// 3D tilt on menu cards
+/* ---------- card tilt + cursor glow ---------- */
 document.querySelectorAll('.card').forEach((card) => {
   card.addEventListener('pointermove', (e) => {
     const r = card.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    card.style.setProperty('--ry', (x * 16) + 'deg');
-    card.style.setProperty('--rx', (-y * 16) + 'deg');
+    card.style.setProperty('--ry', (x * 14) + 'deg');
+    card.style.setProperty('--rx', (-y * 14) + 'deg');
+    card.style.setProperty('--mx', ((x + 0.5) * 100) + '%');
+    card.style.setProperty('--my', ((y + 0.5) * 100) + '%');
   });
   card.addEventListener('pointerleave', () => {
     card.style.setProperty('--rx', '0deg');
